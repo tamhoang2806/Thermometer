@@ -9,36 +9,52 @@ namespace thermometer_test.Utils
 {
     class InputHandler
     {
-        public List<float> getFileContent(Stream inputFileStream)
+        public List<Temperature> temperatures;
+        public InputHandler()
         {
+            temperatures = new List<Temperature>();
+        }
+        public Tuple<List<Temperature>, string> getFileContent(Stream inputFileStream)
+        {
+            int celsiusUnits = 0;
+            int fahrenheitUnits = 0;
             StreamReader inputReader = new StreamReader(inputFileStream);
-            List<float> degrees = new List<float>();
             while (!inputReader.EndOfStream)
             {
                 string inputLine = inputReader.ReadLine();
                 if (!string.IsNullOrEmpty(inputLine))
                 {
-                    Tuple<float, string> processedContent = processFileContent(inputLine);
-                    string unit = processedContent.Item2;
-
-                    if (String.Equals(unit, "C", StringComparison.OrdinalIgnoreCase) == true 
-                        || String.Equals(unit, "F", StringComparison.OrdinalIgnoreCase) == true)
+                    Temperature temperature = processFileContent(inputLine);
+                    string unit = temperature.getUnit();
+                    bool isCelsius = String.Equals(unit, "C", StringComparison.OrdinalIgnoreCase);
+                    bool isFahrenheit = String.Equals(unit, "F", StringComparison.OrdinalIgnoreCase);
+                    if (isCelsius || isFahrenheit)
                     {
-                        degrees.Add(processedContent.Item1);
+                        temperatures.Add(temperature);
+                        celsiusUnits += isCelsius ? 1 : 0;
+                        fahrenheitUnits += isFahrenheit ? 1 : 0;
                     }
                 }
             }
-            System.Diagnostics.Debug.Write(degrees);
-            return degrees;
+            string mainUnit;
+            if (celsiusUnits >= fahrenheitUnits)
+            {
+                mainUnit = "c";
+            }
+            else
+            {
+                mainUnit = "f";
+            }
+            return new Tuple<List<Temperature>, string>(temperatures, mainUnit);
         }
 
-        private Tuple<float,string> processFileContent(string fileContentLine)
+        private Temperature processFileContent(string fileContentLine)
         {
             string[] splittedWords = System.Text.RegularExpressions.Regex.Split(fileContentLine, @"\s{1,}");
-            float degree = float.Parse(splittedWords[0]);
-            string unit = splittedWords[1];
+            float temperature = float.Parse(splittedWords[0]);
+            string unit = splittedWords[1].Trim().ToLower();
 
-            return new Tuple<float, string>(degree, unit);
+            return new Temperature(temperature, unit);
         }
     }
 }

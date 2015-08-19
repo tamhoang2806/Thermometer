@@ -14,9 +14,11 @@ namespace thermometer_test
 {
     public partial class Form1 : Form
     {
+        Thermometer thermometer;
         public Form1()
         {
             InitializeComponent();
+            thermometer = new Thermometer();
         }
 
         private void openInputFile_Click(object sender, EventArgs e)
@@ -34,13 +36,34 @@ namespace thermometer_test
                     if ((inputFileStream = openFileDialog1.OpenFile()) != null)
                     {
                         InputHandler ih = new InputHandler();
-                        ih.getFileContent(inputFileStream);
+                        Tuple<List<Temperature>, string> fileData = ih.getFileContent(inputFileStream);
+                        thermometer.setTemperatures(fileData.Item1);
+                        thermometer.setMainUnit(fileData.Item2);
                     }
                 }
                 catch (IOException)
                 {
                 }
             }
+        }
+
+        private void submitBtn_Click(object sender, EventArgs e)
+        {
+            Temperature threshold = setTemperatureData(tempThreshold, celsiusRadioBtn2.Checked);
+            thermometer.setThreshold(threshold);
+
+            Temperature fluctuation = setTemperatureData(tempFluctuation, celsiusRadioBtn1.Checked);
+            thermometer.setFluctuation(fluctuation);
+
+            //thermometer.processTemperaturesData();
+
+        }
+
+        private Temperature setTemperatureData(TextBox textbox, bool isCelsius)
+        {
+            float temperature = float.Parse(textbox.Text);
+            string unit = isCelsius ? "c" : "f";
+            return new Temperature(temperature, unit);
         }
     }
 }

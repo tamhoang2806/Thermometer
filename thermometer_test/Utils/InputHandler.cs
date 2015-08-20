@@ -19,8 +19,10 @@ namespace thermometer_test.Utils
             int celsiusUnits = 0;
             int fahrenheitUnits = 0;
             StreamReader inputReader = new StreamReader(inputFileStream);
+            int lineNumber = 0;
             while (!inputReader.EndOfStream)
             {
+                lineNumber++;
                 string inputLine = inputReader.ReadLine();
                 if (!string.IsNullOrEmpty(inputLine))
                 {
@@ -34,6 +36,7 @@ namespace thermometer_test.Utils
                         celsiusUnits += isCelsius ? 1 : 0;
                         fahrenheitUnits += isFahrenheit ? 1 : 0;
                     }
+                    temperature.setLineNumber(lineNumber);
                 }
             }
             string mainUnit;
@@ -51,9 +54,9 @@ namespace thermometer_test.Utils
         private Temperature processFileContent(string fileContentLine)
         {
             string[] splittedWords = System.Text.RegularExpressions.Regex.Split(fileContentLine, @"\s{1,}");
-            float temperature = float.Parse(splittedWords[0]);
             string unit = splittedWords[1].Trim().ToLower();
 
+            decimal temperature = Math.Round(decimal.Parse(splittedWords[0]), 2);
             return new Temperature(temperature, unit);
         }
     }

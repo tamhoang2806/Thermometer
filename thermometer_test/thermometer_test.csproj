@@ -52,10 +52,10 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utils\OutputHandler.cs" />
     <Compile Include="Utils\Temperature.cs" />
     <Compile Include="Utils\InputHandler.cs" />
     <Compile Include="Utils\Thermometer.cs" />
-    <Compile Include="Utils\UnitsConversion.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>

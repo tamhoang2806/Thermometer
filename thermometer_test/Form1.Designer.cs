@@ -41,9 +41,10 @@
             this.celsiusRadioBtn2 = new System.Windows.Forms.RadioButton();
             this.tempThreshold = new System.Windows.Forms.TextBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.aboveRadioBtn = new System.Windows.Forms.RadioButton();
-            this.belowRadioBtn = new System.Windows.Forms.RadioButton();
             this.noDirectionRadioBtn = new System.Windows.Forms.RadioButton();
+            this.belowRadioBtn = new System.Windows.Forms.RadioButton();
+            this.aboveRadioBtn = new System.Windows.Forms.RadioButton();
+            this.resultTextBox = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -51,10 +52,9 @@
             // 
             // openInputFile
             // 
-            this.openInputFile.Location = new System.Drawing.Point(33, 31);
-            this.openInputFile.Margin = new System.Windows.Forms.Padding(4);
+            this.openInputFile.Location = new System.Drawing.Point(25, 25);
             this.openInputFile.Name = "openInputFile";
-            this.openInputFile.Size = new System.Drawing.Size(100, 28);
+            this.openInputFile.Size = new System.Drawing.Size(75, 23);
             this.openInputFile.TabIndex = 0;
             this.openInputFile.Text = "Open file";
             this.openInputFile.UseVisualStyleBackColor = true;
@@ -68,9 +68,10 @@
             // 
             // submitBtn
             // 
-            this.submitBtn.Location = new System.Drawing.Point(503, 249);
+            this.submitBtn.Location = new System.Drawing.Point(377, 202);
+            this.submitBtn.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.submitBtn.Name = "submitBtn";
-            this.submitBtn.Size = new System.Drawing.Size(94, 34);
+            this.submitBtn.Size = new System.Drawing.Size(70, 28);
             this.submitBtn.TabIndex = 1;
             this.submitBtn.Text = "Submit";
             this.submitBtn.UseVisualStyleBackColor = true;
@@ -78,18 +79,20 @@
             // 
             // tempFluctuation
             // 
-            this.tempFluctuation.Location = new System.Drawing.Point(12, 58);
+            this.tempFluctuation.Location = new System.Drawing.Point(9, 47);
+            this.tempFluctuation.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.tempFluctuation.Name = "tempFluctuation";
-            this.tempFluctuation.Size = new System.Drawing.Size(100, 22);
+            this.tempFluctuation.Size = new System.Drawing.Size(76, 20);
             this.tempFluctuation.TabIndex = 2;
             // 
             // celsiusRadioBtn1
             // 
             this.celsiusRadioBtn1.AutoSize = true;
             this.celsiusRadioBtn1.Checked = true;
-            this.celsiusRadioBtn1.Location = new System.Drawing.Point(141, 38);
+            this.celsiusRadioBtn1.Location = new System.Drawing.Point(106, 31);
+            this.celsiusRadioBtn1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.celsiusRadioBtn1.Name = "celsiusRadioBtn1";
-            this.celsiusRadioBtn1.Size = new System.Drawing.Size(74, 21);
+            this.celsiusRadioBtn1.Size = new System.Drawing.Size(58, 17);
             this.celsiusRadioBtn1.TabIndex = 3;
             this.celsiusRadioBtn1.TabStop = true;
             this.celsiusRadioBtn1.Text = "Celsius";
@@ -98,9 +101,10 @@
             // fahrenheitRadioBtn1
             // 
             this.fahrenheitRadioBtn1.AutoSize = true;
-            this.fahrenheitRadioBtn1.Location = new System.Drawing.Point(141, 66);
+            this.fahrenheitRadioBtn1.Location = new System.Drawing.Point(106, 54);
+            this.fahrenheitRadioBtn1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.fahrenheitRadioBtn1.Name = "fahrenheitRadioBtn1";
-            this.fahrenheitRadioBtn1.Size = new System.Drawing.Size(97, 21);
+            this.fahrenheitRadioBtn1.Size = new System.Drawing.Size(75, 17);
             this.fahrenheitRadioBtn1.TabIndex = 4;
             this.fahrenheitRadioBtn1.Text = "Fahrenheit";
             this.fahrenheitRadioBtn1.UseVisualStyleBackColor = true;
@@ -108,9 +112,10 @@
             // fluctuationLabel
             // 
             this.fluctuationLabel.AutoSize = true;
-            this.fluctuationLabel.Location = new System.Drawing.Point(12, 35);
+            this.fluctuationLabel.Location = new System.Drawing.Point(9, 28);
+            this.fluctuationLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.fluctuationLabel.Name = "fluctuationLabel";
-            this.fluctuationLabel.Size = new System.Drawing.Size(77, 17);
+            this.fluctuationLabel.Size = new System.Drawing.Size(59, 13);
             this.fluctuationLabel.TabIndex = 5;
             this.fluctuationLabel.Text = "Fluctuation";
             // 
@@ -120,9 +125,11 @@
             this.groupBox1.Controls.Add(this.fluctuationLabel);
             this.groupBox1.Controls.Add(this.tempFluctuation);
             this.groupBox1.Controls.Add(this.celsiusRadioBtn1);
-            this.groupBox1.Location = new System.Drawing.Point(33, 76);
+            this.groupBox1.Location = new System.Drawing.Point(25, 62);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(304, 103);
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox1.Size = new System.Drawing.Size(228, 84);
             this.groupBox1.TabIndex = 6;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Fluctuation";
@@ -132,9 +139,11 @@
             this.groupBox2.Controls.Add(this.fahrenheitRadioBtn2);
             this.groupBox2.Controls.Add(this.celsiusRadioBtn2);
             this.groupBox2.Controls.Add(this.tempThreshold);
-            this.groupBox2.Location = new System.Drawing.Point(33, 185);
+            this.groupBox2.Location = new System.Drawing.Point(25, 150);
+            this.groupBox2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(304, 100);
+            this.groupBox2.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox2.Size = new System.Drawing.Size(228, 81);
             this.groupBox2.TabIndex = 7;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Temperature Threshold";
@@ -142,9 +151,10 @@
             // fahrenheitRadioBtn2
             // 
             this.fahrenheitRadioBtn2.AutoSize = true;
-            this.fahrenheitRadioBtn2.Location = new System.Drawing.Point(141, 50);
+            this.fahrenheitRadioBtn2.Location = new System.Drawing.Point(106, 41);
+            this.fahrenheitRadioBtn2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.fahrenheitRadioBtn2.Name = "fahrenheitRadioBtn2";
-            this.fahrenheitRadioBtn2.Size = new System.Drawing.Size(97, 21);
+            this.fahrenheitRadioBtn2.Size = new System.Drawing.Size(75, 17);
             this.fahrenheitRadioBtn2.TabIndex = 2;
             this.fahrenheitRadioBtn2.Text = "Fahrenheit";
             this.fahrenheitRadioBtn2.UseVisualStyleBackColor = true;
@@ -153,9 +163,10 @@
             // 
             this.celsiusRadioBtn2.AutoSize = true;
             this.celsiusRadioBtn2.Checked = true;
-            this.celsiusRadioBtn2.Location = new System.Drawing.Point(141, 22);
+            this.celsiusRadioBtn2.Location = new System.Drawing.Point(106, 18);
+            this.celsiusRadioBtn2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.celsiusRadioBtn2.Name = "celsiusRadioBtn2";
-            this.celsiusRadioBtn2.Size = new System.Drawing.Size(74, 21);
+            this.celsiusRadioBtn2.Size = new System.Drawing.Size(58, 17);
             this.celsiusRadioBtn2.TabIndex = 1;
             this.celsiusRadioBtn2.TabStop = true;
             this.celsiusRadioBtn2.Text = "Celsius";
@@ -163,9 +174,10 @@
             // 
             // tempThreshold
             // 
-            this.tempThreshold.Location = new System.Drawing.Point(12, 22);
+            this.tempThreshold.Location = new System.Drawing.Point(9, 18);
+            this.tempThreshold.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.tempThreshold.Name = "tempThreshold";
-            this.tempThreshold.Size = new System.Drawing.Size(100, 22);
+            this.tempThreshold.Size = new System.Drawing.Size(76, 20);
             this.tempThreshold.TabIndex = 0;
             // 
             // groupBox3
@@ -173,57 +185,70 @@
             this.groupBox3.Controls.Add(this.noDirectionRadioBtn);
             this.groupBox3.Controls.Add(this.belowRadioBtn);
             this.groupBox3.Controls.Add(this.aboveRadioBtn);
-            this.groupBox3.Location = new System.Drawing.Point(375, 79);
+            this.groupBox3.Location = new System.Drawing.Point(281, 64);
+            this.groupBox3.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(200, 134);
+            this.groupBox3.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox3.Size = new System.Drawing.Size(150, 109);
             this.groupBox3.TabIndex = 8;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Direction";
             // 
-            // aboveRadioBtn
-            // 
-            this.aboveRadioBtn.AutoSize = true;
-            this.aboveRadioBtn.Location = new System.Drawing.Point(25, 28);
-            this.aboveRadioBtn.Name = "aboveRadioBtn";
-            this.aboveRadioBtn.Size = new System.Drawing.Size(69, 21);
-            this.aboveRadioBtn.TabIndex = 0;
-            this.aboveRadioBtn.TabStop = true;
-            this.aboveRadioBtn.Text = "Above";
-            this.aboveRadioBtn.UseVisualStyleBackColor = true;
-            // 
-            // belowRadioBtn
-            // 
-            this.belowRadioBtn.AutoSize = true;
-            this.belowRadioBtn.Location = new System.Drawing.Point(25, 56);
-            this.belowRadioBtn.Name = "belowRadioBtn";
-            this.belowRadioBtn.Size = new System.Drawing.Size(66, 21);
-            this.belowRadioBtn.TabIndex = 1;
-            this.belowRadioBtn.TabStop = true;
-            this.belowRadioBtn.Text = "Below";
-            this.belowRadioBtn.UseVisualStyleBackColor = true;
-            // 
             // noDirectionRadioBtn
             // 
             this.noDirectionRadioBtn.AutoSize = true;
-            this.noDirectionRadioBtn.Location = new System.Drawing.Point(25, 83);
+            this.noDirectionRadioBtn.Checked = true;
+            this.noDirectionRadioBtn.Location = new System.Drawing.Point(19, 67);
+            this.noDirectionRadioBtn.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.noDirectionRadioBtn.Name = "noDirectionRadioBtn";
-            this.noDirectionRadioBtn.Size = new System.Drawing.Size(63, 21);
+            this.noDirectionRadioBtn.Size = new System.Drawing.Size(51, 17);
             this.noDirectionRadioBtn.TabIndex = 2;
             this.noDirectionRadioBtn.TabStop = true;
             this.noDirectionRadioBtn.Text = "None";
             this.noDirectionRadioBtn.UseVisualStyleBackColor = true;
             // 
+            // belowRadioBtn
+            // 
+            this.belowRadioBtn.AutoSize = true;
+            this.belowRadioBtn.Location = new System.Drawing.Point(19, 46);
+            this.belowRadioBtn.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.belowRadioBtn.Name = "belowRadioBtn";
+            this.belowRadioBtn.Size = new System.Drawing.Size(54, 17);
+            this.belowRadioBtn.TabIndex = 1;
+            this.belowRadioBtn.Text = "Below";
+            this.belowRadioBtn.UseVisualStyleBackColor = true;
+            // 
+            // aboveRadioBtn
+            // 
+            this.aboveRadioBtn.AutoSize = true;
+            this.aboveRadioBtn.Location = new System.Drawing.Point(19, 23);
+            this.aboveRadioBtn.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.aboveRadioBtn.Name = "aboveRadioBtn";
+            this.aboveRadioBtn.Size = new System.Drawing.Size(56, 17);
+            this.aboveRadioBtn.TabIndex = 0;
+            this.aboveRadioBtn.Text = "Above";
+            this.aboveRadioBtn.UseVisualStyleBackColor = true;
+            // 
+            // resultTextBox
+            // 
+            this.resultTextBox.Location = new System.Drawing.Point(25, 250);
+            this.resultTextBox.Multiline = true;
+            this.resultTextBox.Name = "resultTextBox";
+            this.resultTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.resultTextBox.Size = new System.Drawing.Size(422, 300);
+            this.resultTextBox.TabIndex = 9;
+            // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(629, 295);
+            this.ClientSize = new System.Drawing.Size(472, 571);
+            this.Controls.Add(this.resultTextBox);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.submitBtn);
             this.Controls.Add(this.openInputFile);
-            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "Form1";
             this.Text = "Form1";
             this.groupBox1.ResumeLayout(false);
@@ -233,6 +258,7 @@
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -254,6 +280,7 @@
         private System.Windows.Forms.RadioButton belowRadioBtn;
         private System.Windows.Forms.RadioButton aboveRadioBtn;
         private System.Windows.Forms.RadioButton noDirectionRadioBtn;
+        private System.Windows.Forms.TextBox resultTextBox;
     }
 }
 

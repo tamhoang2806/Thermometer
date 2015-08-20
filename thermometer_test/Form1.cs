@@ -43,6 +43,7 @@ namespace thermometer_test
                 }
                 catch (IOException)
                 {
+                    MessageBox.Show("Cannot open the file", "Cannot open the file", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
         }
@@ -50,18 +51,60 @@ namespace thermometer_test
         private void submitBtn_Click(object sender, EventArgs e)
         {
             Temperature threshold = setTemperatureData(tempThreshold, celsiusRadioBtn2.Checked);
+            if (threshold == null)
+            {
+                MessageBox.Show("Threshold is not set", "No threshold", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
             thermometer.setThreshold(threshold);
 
             Temperature fluctuation = setTemperatureData(tempFluctuation, celsiusRadioBtn1.Checked);
             thermometer.setFluctuation(fluctuation);
 
-            //thermometer.processTemperaturesData();
+            int direction = 0;
+            if (aboveRadioBtn.Checked)
+            {
+                direction = 1;
+            }
+            else if (belowRadioBtn.Checked)
+            {
+                direction = -1;
+            }
+
+            thermometer.setDirection(direction);
+
+            //List<Temperature> temperatures = thermometer.getTemperatures();
+            //foreach(Temperature temp in temperatures)
+            //{
+            //    System.Diagnostics.Debug.WriteLine(temp.getDegree() + " " + temp.getUnit() + " " + temp.getLineNumber());
+
+            //}
+            System.Diagnostics.Debug.WriteLine(thermometer.mainUnit);
+
+            List<string> output = thermometer.processTemperaturesData();
+            OutputHandler oh = new OutputHandler();
+            oh.printOutResult(output, resultTextBox);
 
         }
 
         private Temperature setTemperatureData(TextBox textbox, bool isCelsius)
         {
-            float temperature = float.Parse(textbox.Text);
+            string textboxText = textbox.Text;
+            if (string.IsNullOrWhiteSpace(textboxText))
+            {
+                return null;
+            }
+            decimal temperatureNumber;
+            try
+            {
+                temperatureNumber = decimal.Parse(textboxText);
+            } catch(FormatException) {
+                MessageBox.Show("Text box value needs to be a number", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return null;
+            }
+
+            decimal temperature = Math.Round(temperatureNumber, 2);
             string unit = isCelsius ? "c" : "f";
             return new Temperature(temperature, unit);
         }

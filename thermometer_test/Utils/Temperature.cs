@@ -8,18 +8,20 @@ namespace thermometer_test.Utils
 {
     class Temperature
     {
-        public float temperatureDegree;
+        public decimal temperatureDegree;
         public string temperatureUnit;
+        public int lineNumber;
         public Temperature()
         {
         }
-        public Temperature(float temperatureDegree, string temperatureUnit)
+        public Temperature(decimal temperatureDegree, string temperatureUnit)
         {
             this.temperatureDegree = temperatureDegree;
             this.temperatureUnit = temperatureUnit;
+            lineNumber = 0;
         }
 
-        public float getDegree()
+        public decimal getDegree()
         {
             return temperatureDegree;
         }
@@ -35,18 +37,44 @@ namespace thermometer_test.Utils
 
         public void convertSetTemperature(bool cToF)
         {
-            float temperature;
+            decimal temperature;
             if (cToF)
             {
-                temperature = UnitsConversion.CelsiustoFahrenheit(temperatureDegree);
+                temperature = CelsiustoFahrenheit(temperatureDegree);
             }
             else
             {
-                temperature = UnitsConversion.FahrenheittoCelsius(temperatureDegree);
+                temperature = FahrenheittoCelsius(temperatureDegree);
             }
-            this.temperatureDegree = temperature;
+            this.temperatureDegree = Math.Round(temperature, 2);
         }
 
+        public void setLineNumber(int lineNumber)
+        {
+            this.lineNumber = lineNumber;
+        }
+
+        public int getLineNumber()
+        {
+            return this.lineNumber;
+        }
+        /*
+        *  Convert Celsius to Fahrenheit 
+        */
+        public decimal CelsiustoFahrenheit(decimal celsiusDegree)
+        {
+            decimal fahrenheitDegree = (celsiusDegree * 1.8M) + 32.0M;
+            return fahrenheitDegree;
+        }
+
+        /*
+         *  Convert Fahrenheit to Celsius 
+         */
+        public decimal FahrenheittoCelsius(decimal fahrenheitDegree)
+        {
+            decimal celsiusDegree = (fahrenheitDegree - 32.0M) / 1.8M;
+            return celsiusDegree;
+        }
 
     }
 }

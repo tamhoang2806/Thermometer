@@ -12,11 +12,11 @@ namespace thermometer_test.Utils
         public string mainUnit;
         public Temperature threshold;
         public Temperature fluctuation;
+        public int direction;
         public Thermometer()
         {
             temperatures = new List<Temperature>();
-            threshold = new Temperature();
-            fluctuation = new Temperature();
+            direction = 0;
         }
 
         public void setTemperatures(List<Temperature> temperatures)
@@ -34,11 +34,14 @@ namespace thermometer_test.Utils
             this.mainUnit = mainUnit;
         }
 
-        public void processTemperaturesData()
+        public List<string> processTemperaturesData()
         {
             bool fromCtoF = isConvertedFromCtoF();
+            bool isfluctuated = false;
+            List<string> output = new List<string>();
             for (int i = 0; i < temperatures.Count; i++)
             {
+                string outputString = "Threshold reached at line number" + temperatures[i].getLineNumber().ToString();
                 string temperatureUnit = temperatures[i].getUnit();
                 if (checkUnit(temperatureUnit))
                 {
@@ -46,13 +49,44 @@ namespace thermometer_test.Utils
                     temperatures[i].convertSetTemperature(fromCtoF);
                     temperatures[i].setUnit(mainUnit);
                 }
-                float temperature = temperatures[i].getDegree();
+                decimal temperature = temperatures[i].getDegree();
+                decimal thresholdTemperature = threshold.getDegree();
+                if (temperature == thresholdTemperature)
+                {
+                    if (i == 0)
+                    {
+                        output.Add(outputString);
+                        continue;
+                    }
+                    decimal previousTemperature = temperatures[i - 1].getDegree();
+                    decimal diff = previousTemperature - temperature;
+                    decimal absDiff = Math.Abs(diff);
+                    if (direction == 0 || (diff * direction > 0))
+                    {
+                        if (fluctuation == null)
+                        {
+                            output.Add(outputString);
+                            continue;
+                        }
+                        decimal fluctuationDegree = fluctuation.getDegree();
 
+                        if (absDiff <= fluctuationDegree)
+                        {
+                            if (!isfluctuated)
+                            {
+                                output.Add(outputString);
+                                isfluctuated = true;
+                            }
+                        }
+                        else
+                        {
+                            isfluctuated = false;
+                        }
+                    }
 
-                System.Diagnostics.Debug.WriteLine(temperatures[i].getDegree());
-                System.Diagnostics.Debug.WriteLine(temperatures[i].getUnit());
+                }
             }
-            System.Diagnostics.Debug.WriteLine(mainUnit);
+            return output;
         }
 
         public void updateCorrectThreshold()
@@ -97,6 +131,11 @@ namespace thermometer_test.Utils
         public void setFluctuation(Temperature fluctuation)
         {
             this.fluctuation = fluctuation;
+        }
+
+        public void setDirection(int direction)
+        {
+            this.direction = direction;
         }
     }
 }

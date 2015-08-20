@@ -41,16 +41,17 @@ namespace thermometer_test.Utils
             List<string> output = new List<string>();
             for (int i = 0; i < temperatures.Count; i++)
             {
+                decimal temperature = temperatures[i].getDegree();
                 string outputString = "Threshold reached at line number" + temperatures[i].getLineNumber().ToString();
                 string temperatureUnit = temperatures[i].getUnit();
-                if (checkUnit(temperatureUnit))
+                if (!checkUnit(temperatureUnit))
                 {
                     // convert the temperature to the main unit
-                    temperatures[i].convertSetTemperature(fromCtoF);
-                    temperatures[i].setUnit(mainUnit);
+                    temperature = temperatures[i].convertSetTemperature(fromCtoF);
                 }
-                decimal temperature = temperatures[i].getDegree();
+
                 decimal thresholdTemperature = threshold.getDegree();
+
                 if (temperature == thresholdTemperature)
                 {
                     if (i == 0)
@@ -118,9 +119,9 @@ namespace thermometer_test.Utils
         {
             if (String.Equals(mainUnit, "C", StringComparison.OrdinalIgnoreCase))
             {
-                return true;
+                return false;
             }
-            return false;
+            return true;
         }
 
         public void setThreshold(Temperature threshold)

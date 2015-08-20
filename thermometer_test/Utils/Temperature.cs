@@ -35,7 +35,7 @@ namespace thermometer_test.Utils
             this.temperatureUnit = unit;
         }
 
-        public void convertSetTemperature(bool cToF)
+        public decimal convertSetTemperature(bool cToF)
         {
             decimal temperature;
             if (cToF)
@@ -46,7 +46,8 @@ namespace thermometer_test.Utils
             {
                 temperature = FahrenheittoCelsius(temperatureDegree);
             }
-            this.temperatureDegree = Math.Round(temperature, 2);
+            temperature = Math.Round(temperature, 2);
+            return temperature;
         }
 
         public void setLineNumber(int lineNumber)

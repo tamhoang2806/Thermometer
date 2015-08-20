@@ -15,10 +15,10 @@ namespace thermometer_test
     public partial class Form1 : Form
     {
         Thermometer thermometer;
+        Tuple<List<Temperature>, string> fileData;
         public Form1()
         {
             InitializeComponent();
-            thermometer = new Thermometer();
         }
 
         private void openInputFile_Click(object sender, EventArgs e)
@@ -36,9 +36,7 @@ namespace thermometer_test
                     if ((inputFileStream = openFileDialog1.OpenFile()) != null)
                     {
                         InputHandler ih = new InputHandler();
-                        Tuple<List<Temperature>, string> fileData = ih.getFileContent(inputFileStream);
-                        thermometer.setTemperatures(fileData.Item1);
-                        thermometer.setMainUnit(fileData.Item2);
+                        fileData = ih.getFileContent(inputFileStream);
                     }
                 }
                 catch (IOException)
@@ -50,6 +48,15 @@ namespace thermometer_test
 
         private void submitBtn_Click(object sender, EventArgs e)
         {
+            if (fileData == null)
+            {
+                MessageBox.Show("No input data", "No input", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            thermometer = new Thermometer();
+            thermometer.setTemperatures(fileData.Item1);
+            thermometer.setMainUnit(fileData.Item2);
             Temperature threshold = setTemperatureData(tempThreshold, celsiusRadioBtn2.Checked);
             if (threshold == null)
             {

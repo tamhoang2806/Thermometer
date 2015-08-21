@@ -89,6 +89,11 @@ namespace thermometer_test.Utils
                     // if direction is 0 or we have right direction
                     if (direction == 0 || (diff * direction > 0))
                     {
+                        if (fluctuation == null)
+                        {
+                            outputList.Add(outputString);
+                            continue;
+                        }
                         // check if it is in fluctuation range
                         // no good to go
                         if (!fluctuationData[i])
@@ -130,31 +135,35 @@ namespace thermometer_test.Utils
                 // if the current temperature is the same with the threshold temperature
                 if (currTemperature == thresholdTemperature)
                 {
-                    decimal fluctuationDegree = fluctuation.getDegree();
-                    if (i < temperatures.Count - 1)
+                    if (fluctuation != null)
                     {
-                        temperatures[i + 1] = getCorrectCovertedData(temperatures[i + 1]);
-                        decimal afterAbsDiff = Math.Abs(temperatures[i + 1].getDegree() - currTemperature);
-                        // if the difference with the number behind is below fluctuation degree
-                        if (afterAbsDiff <= fluctuationDegree)
+
+                        decimal fluctuationDegree = fluctuation.getDegree();
+                        if (i < temperatures.Count - 1)
                         {
-                            if (i < temperatures.Count - 2)
+                            temperatures[i + 1] = getCorrectCovertedData(temperatures[i + 1]);
+                            decimal afterAbsDiff = Math.Abs(temperatures[i + 1].getDegree() - currTemperature);
+                            // if the difference with the number behind is below fluctuation degree
+                            if (afterAbsDiff <= fluctuationDegree)
                             {
-                                temperatures[i + 2] = getCorrectCovertedData(temperatures[i + 2]);
-                                if (temperatures[i + 2].getDegree() == thresholdTemperature)
+                                if (i < temperatures.Count - 2)
+                                {
+                                    temperatures[i + 2] = getCorrectCovertedData(temperatures[i + 2]);
+                                    if (temperatures[i + 2].getDegree() == thresholdTemperature)
+                                    {
+                                        fluctuationData[i] = true;
+                                        fluctuationData[i + 2] = true;
+                                        fluctuationData[i + 1] = true;
+                                        continue;
+                                    }
+
+                                }
+                                if (temperatures[i + 1].getDegree() == thresholdTemperature)
                                 {
                                     fluctuationData[i] = true;
-                                    fluctuationData[i + 2] = true;
                                     fluctuationData[i + 1] = true;
                                     continue;
                                 }
-
-                            }
-                            if (temperatures[i + 1].getDegree() == thresholdTemperature)
-                            {
-                                fluctuationData[i] = true;
-                                fluctuationData[i + 1] = true;
-                                continue;
                             }
                         }
                     }

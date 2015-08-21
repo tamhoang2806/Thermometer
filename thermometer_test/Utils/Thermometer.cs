@@ -56,12 +56,73 @@ namespace thermometer_test.Utils
          */
         public List<string> processTemperaturesData()
         {
-            bool fromCtoF = isConvertedFromCtoF();
-            bool isfluctuated = false;
-            List<string> output = new List<string>();
+            bool[] fluctuationData = getFluctuationData();
+            List<string> outputList = new List<string>();
+            Dictionary<int, string> fluctuationMap = getFluctuationMap(fluctuationData);
+            Dictionary<string, bool> outputMap = new Dictionary<string, bool>();
             for (int i = 0; i < temperatures.Count; i++)
             {
                 string outputString = "Threshold reached at line number " + temperatures[i].getLineNumber().ToString();
+                decimal currTemperature = temperatures[i].getDegree();
+                // get the treshold temperature
+                decimal thresholdTemperature = threshold.getDegree();
+                // if the current temperature is the same with the threshold temperature
+                if (currTemperature == thresholdTemperature)
+                {
+                    if (i == 0 && direction != 0)
+                    {
+                        // if this is the first item matched threshold but we have a direction, lets skip
+                        continue;
+                    }
+
+                    decimal previousTemperature;
+                    if (i == 0)
+                    {
+                        previousTemperature = 0;
+                    }
+                    else
+                    {
+                        previousTemperature = temperatures[i - 1].getDegree();
+                    }
+                    decimal diff = previousTemperature - currTemperature;
+
+                    // if direction is 0 or we have right direction
+                    if (direction == 0 || (diff * direction > 0))
+                    {
+                        // check if it is in fluctuation range
+                        // no good to go
+                        if (!fluctuationData[i])
+                        {
+                            outputList.Add(outputString);
+                            continue;
+                        }
+                        else
+                        {
+                            // yes check if output already have the range
+                            string mapKey = fluctuationMap[i];
+                            if (!outputMap.ContainsKey(mapKey))
+                            {
+                                outputList.Add(outputString);
+                                outputMap.Add(mapKey, true);
+                                continue;
+                            }
+
+                        }
+                    }
+
+                }
+            }
+            return outputList;
+        }
+
+        /*
+         * Get the fluctuation data array.
+         */
+        private bool[] getFluctuationData()
+        {
+            bool[] fluctuationData = new bool[temperatures.Count];
+            for (int i = 0; i < temperatures.Count; i++)
+            {
                 temperatures[i] = getCorrectCovertedData(temperatures[i]);
                 decimal currTemperature = temperatures[i].getDegree();
                 // get the treshold temperature
@@ -69,52 +130,76 @@ namespace thermometer_test.Utils
                 // if the current temperature is the same with the threshold temperature
                 if (currTemperature == thresholdTemperature)
                 {
-                    if (i == 0 && direction == 0)
+                    decimal fluctuationDegree = fluctuation.getDegree();
+                    if (i < temperatures.Count - 1)
                     {
-                        output.Add(outputString);
-                        continue;
-                    }
-                    decimal previousTemperature = temperatures[i - 1].getDegree();
-                    decimal diff = previousTemperature - currTemperature;
-
-                    // if direction is 0 or we have right direction
-                    if (direction == 0 || (diff * direction > 0))
-                    {
-                        if (fluctuation == null)
+                        temperatures[i + 1] = getCorrectCovertedData(temperatures[i + 1]);
+                        decimal afterAbsDiff = Math.Abs(temperatures[i + 1].getDegree() - currTemperature);
+                        // if the difference with the number behind is below fluctuation degree
+                        if (afterAbsDiff <= fluctuationDegree)
                         {
-                            output.Add(outputString);
-                            continue;
-                        }
-                        decimal absDiff = Math.Abs(diff);
-                        decimal fluctuationDegree = fluctuation.getDegree();
-                        bool ispreviFluc = absDiff <= fluctuationDegree;
-                        bool isafterFluc = false;
-                        if (i < temperatures.Count - 1)
-                        {
-                            temperatures[i + 1] = getCorrectCovertedData(temperatures[i + 1]);
-                            decimal afterAbsDiff = Math.Abs(temperatures[i + 1].getDegree() - currTemperature);
-                            isafterFluc = afterAbsDiff <= fluctuationDegree;
-                        }
-                        // if the absolute difference between the previous one and the current one is less than fluctuation
-                        if (ispreviFluc || isafterFluc)
-                        {
-                            if (!isfluctuated)
+                            if (i < temperatures.Count - 2)
                             {
-                                output.Add(outputString);
-                                isfluctuated = true;
+                                temperatures[i + 2] = getCorrectCovertedData(temperatures[i + 2]);
+                                if (temperatures[i + 2].getDegree() == thresholdTemperature)
+                                {
+                                    fluctuationData[i] = true;
+                                    fluctuationData[i + 2] = true;
+                                    fluctuationData[i + 1] = true;
+                                    continue;
+                                }
+
                             }
-                            continue;
-                        }
-                        else
-                        {
-                            output.Add(outputString);
-                            isfluctuated = false;
+                            if (temperatures[i + 1].getDegree() == thresholdTemperature)
+                            {
+                                fluctuationData[i] = true;
+                                fluctuationData[i + 1] = true;
+                                continue;
+                            }
                         }
                     }
-
                 }
             }
-            return output;
+            return fluctuationData;
+
+        }
+
+        /*
+         * Get the Dictionary for fluctuation range
+         */
+        private Dictionary<int, string> getFluctuationMap(bool[] fluctuationData)
+        {
+            int startRange = 0;
+            int endRange = 0;
+            int rangeNumber = 0;
+            string rangeText;
+            Dictionary<int, string> fluctuationMap = new Dictionary<int, string>();
+            for (int i = 1; i < fluctuationData.Length; i++)
+            {
+                // if this is true but the previous one is false, this is the starting point of the fluctuation range
+                if (fluctuationData[i])
+                {
+                    if (!fluctuationData[i - 1])
+                    {
+                        startRange = i;
+                        rangeNumber++;
+                    }
+                }
+                else
+                {
+                    if (fluctuationData[i - 1])
+                    {
+                        endRange = i - 1;
+                        rangeText = startRange.ToString() + "_" + endRange.ToString();
+                        for (int j = startRange; j <= endRange; j++)
+                        {
+                            // let's add to the map so we know what range the index is in
+                            fluctuationMap.Add(j, rangeText);
+                        }
+                    }
+                }
+            }
+            return fluctuationMap;
         }
 
         /*

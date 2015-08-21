@@ -14,4 +14,3 @@ C:\Users\Xoai\documents\visual studio 2012\Projects\thermometer_test\thermometer
 C:\Users\Xoai\documents\visual studio 2012\Projects\thermometer_test\thermometer_test\obj\Debug\thermometer_test.csproj.GenerateResource.Cache
 C:\Users\Xoai\documents\visual studio 2012\Projects\thermometer_test\thermometer_test\obj\Debug\thermometer_test.exe
 C:\Users\Xoai\documents\visual studio 2012\Projects\thermometer_test\thermometer_test\obj\Debug\thermometer_test.pdb
-C:\Users\Xoai\documents\visual studio 2012\Projects\thermometer_test\thermometer_test\obj\Debug\thermometer_test.csprojResolveAssemblyReference.cache

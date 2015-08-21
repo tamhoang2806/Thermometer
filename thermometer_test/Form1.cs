@@ -49,10 +49,16 @@ namespace thermometer_test
         private void submitBtn_Click(object sender, EventArgs e)
         {
             // create list of temperatures from file data
-            handleFileData();
+            if (!handleFileData())
+            {
+                return;
+            }
 
             // prepare threshold and fluctuation objs
-            prepareThresholdFluctuation();
+            if (!prepareThresholdFluctuation())
+            {
+                return;
+            }
 
             // prepare temperature direction
             prepareTemperatureDirection();
@@ -103,29 +109,30 @@ namespace thermometer_test
         /*
          * Create list of temperatures and set main unit for thermometer object
          */
-        private void handleFileData()
+        private bool handleFileData()
         {
             if (fileData == null)
             {
                 MessageBox.Show("No input data", "No input", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
+                return false;
             }
 
             thermometer = new Thermometer();
             thermometer.setTemperatures(fileData.Item1);
             thermometer.setMainUnit(fileData.Item2);
+            return true;
         }
 
         /*
          * Prepare threshold and fluctuation objects with correct unit data
          */
-        private void prepareThresholdFluctuation()
+        private bool prepareThresholdFluctuation()
         {
             Temperature threshold = setTemperatureData(tempThreshold, celsiusRadioBtn2.Checked, false);
             if (threshold == null)
             {
                 MessageBox.Show("Threshold is not set", "No threshold", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
+                return false;
             }
 
             thermometer.setThreshold(threshold);
@@ -134,6 +141,7 @@ namespace thermometer_test
             {
                 thermometer.setFluctuation(fluctuation);
             }
+            return true;
         }
 
         private void prepareTemperatureDirection()

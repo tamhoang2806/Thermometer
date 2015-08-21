@@ -9,13 +9,16 @@ namespace thermometer_test.Utils
 {
     class InputHandler
     {
-        public List<Temperature> temperatures;
         public InputHandler()
         {
-            temperatures = new List<Temperature>();
         }
+
+        /*
+         * Get file content and produce the list of temperatures and main unit
+         */
         public Tuple<List<Temperature>, string> getFileContent(Stream inputFileStream)
         {
+            List<Temperature> temperatures = new List<Temperature>();
             int celsiusUnits = 0;
             int fahrenheitUnits = 0;
             StreamReader inputReader = new StreamReader(inputFileStream);
@@ -50,7 +53,10 @@ namespace thermometer_test.Utils
             }
             return new Tuple<List<Temperature>, string>(temperatures, mainUnit);
         }
-
+        
+        /*
+         * Split up the temperature and unit
+         */
         private Temperature processFileContent(string fileContentLine)
         {
             string[] splittedWords = System.Text.RegularExpressions.Regex.Split(fileContentLine, @"\s{1,}");

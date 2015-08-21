@@ -15,6 +15,12 @@ namespace thermometer_test.Utils
 
         public void printOutResult(List<string> resultStrings, TextBox textbox)
         {
+            textbox.Text = "";
+            if (resultStrings.Count() == 0)
+            {
+                textbox.AppendText("No Result");
+                return;
+            }
             foreach (string resultString in resultStrings)
             {
                 textbox.AppendText(resultString + Environment.NewLine);

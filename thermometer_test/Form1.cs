@@ -48,6 +48,63 @@ namespace thermometer_test
 
         private void submitBtn_Click(object sender, EventArgs e)
         {
+            // create list of temperatures from file data
+            handleFileData();
+
+            // prepare threshold and fluctuation objs
+            prepareThresholdFluctuation();
+
+            // prepare temperature direction
+            prepareTemperatureDirection();
+
+            List<string> output = thermometer.processTemperaturesData();
+            OutputHandler oh = new OutputHandler();
+            oh.printOutResult(output, resultTextBox);
+
+        }
+
+        /*
+         * Get the temperature data from text box and radio buttons
+         * Convert to the right unit and return temperature data
+         */
+        private Temperature setTemperatureData(TextBox textbox, bool isCelsius, bool isFluctuation)
+        {
+            string textboxText = textbox.Text;
+            if (string.IsNullOrWhiteSpace(textboxText))
+            {
+                return null;
+            }
+
+            decimal temperatureNumber;
+            try
+            {
+                temperatureNumber = decimal.Parse(textboxText);
+            }
+            catch (FormatException)
+            {
+                MessageBox.Show("Text box value needs to be a number", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return null;
+            }
+
+            decimal temperature = Math.Round(temperatureNumber, 2);
+            if (isFluctuation)
+            {
+                if (temperature == 0)
+                {
+                    MessageBox.Show("Fluctuation value needs to be non zero", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return null;
+                }
+                temperature = Math.Abs(temperature);
+            }
+            string unit = isCelsius ? "c" : "f";
+            return new Temperature(temperature, unit);
+        }
+
+        /*
+         * Create list of temperatures and set main unit for thermometer object
+         */
+        private void handleFileData()
+        {
             if (fileData == null)
             {
                 MessageBox.Show("No input data", "No input", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -57,7 +114,14 @@ namespace thermometer_test
             thermometer = new Thermometer();
             thermometer.setTemperatures(fileData.Item1);
             thermometer.setMainUnit(fileData.Item2);
-            Temperature threshold = setTemperatureData(tempThreshold, celsiusRadioBtn2.Checked);
+        }
+
+        /*
+         * Prepare threshold and fluctuation objects with correct unit data
+         */
+        private void prepareThresholdFluctuation()
+        {
+            Temperature threshold = setTemperatureData(tempThreshold, celsiusRadioBtn2.Checked, false);
             if (threshold == null)
             {
                 MessageBox.Show("Threshold is not set", "No threshold", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -65,10 +129,15 @@ namespace thermometer_test
             }
 
             thermometer.setThreshold(threshold);
+            Temperature fluctuation = setTemperatureData(tempFluctuation, celsiusRadioBtn1.Checked, true);
+            if (fluctuation != null)
+            {
+                thermometer.setFluctuation(fluctuation);
+            }
+        }
 
-            Temperature fluctuation = setTemperatureData(tempFluctuation, celsiusRadioBtn1.Checked);
-            thermometer.setFluctuation(fluctuation);
-
+        private void prepareTemperatureDirection()
+        {
             int direction = 0;
             if (aboveRadioBtn.Checked)
             {
@@ -80,40 +149,6 @@ namespace thermometer_test
             }
 
             thermometer.setDirection(direction);
-
-            //List<Temperature> temperatures = thermometer.getTemperatures();
-            //foreach(Temperature temp in temperatures)
-            //{
-            //    System.Diagnostics.Debug.WriteLine(temp.getDegree() + " " + temp.getUnit() + " " + temp.getLineNumber());
-
-            //}
-            System.Diagnostics.Debug.WriteLine(thermometer.mainUnit);
-
-            List<string> output = thermometer.processTemperaturesData();
-            OutputHandler oh = new OutputHandler();
-            oh.printOutResult(output, resultTextBox);
-
-        }
-
-        private Temperature setTemperatureData(TextBox textbox, bool isCelsius)
-        {
-            string textboxText = textbox.Text;
-            if (string.IsNullOrWhiteSpace(textboxText))
-            {
-                return null;
-            }
-            decimal temperatureNumber;
-            try
-            {
-                temperatureNumber = decimal.Parse(textboxText);
-            } catch(FormatException) {
-                MessageBox.Show("Text box value needs to be a number", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return null;
-            }
-
-            decimal temperature = Math.Round(temperatureNumber, 2);
-            string unit = isCelsius ? "c" : "f";
-            return new Temperature(temperature, unit);
         }
     }
 }

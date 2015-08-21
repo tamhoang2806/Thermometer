@@ -8,12 +8,13 @@ namespace thermometer_test.Utils
 {
     class Temperature
     {
-        public decimal temperatureDegree;
-        public string temperatureUnit;
-        public int lineNumber;
+        private decimal temperatureDegree;
+        private string temperatureUnit;
+        private int lineNumber;
         public Temperature()
         {
         }
+
         public Temperature(decimal temperatureDegree, string temperatureUnit)
         {
             this.temperatureDegree = temperatureDegree;
@@ -21,21 +22,59 @@ namespace thermometer_test.Utils
             lineNumber = 0;
         }
 
+        /*
+         * Get temperature degree
+         */
         public decimal getDegree()
         {
             return temperatureDegree;
         }
 
+        /*
+         * Set temperature degree
+         */
+        public void setDegree(decimal degree)
+        {
+            this.temperatureDegree = degree;
+        }
+
+        /*
+         * Get temperature unit
+         */
         public string getUnit()
         {
             return temperatureUnit;
         }
+
+        /*
+         * Set temperature unit
+         */
         public void setUnit(string unit)
         {
             this.temperatureUnit = unit;
         }
 
-        public decimal convertSetTemperature(bool cToF)
+        /*
+         * Set line number
+         */
+        public void setLineNumber(int lineNumber)
+        {
+            this.lineNumber = lineNumber;
+        }
+
+        /* 
+         * Get line number
+         */
+        public int getLineNumber()
+        {
+            return this.lineNumber;
+        }
+
+        /*
+         * Convert the temperature
+         * If cToF is true, convert from Celsius to Fahrenheit
+         */
+        public decimal convertTemperature(bool cToF)
         {
             decimal temperature;
             if (cToF)
@@ -50,15 +89,6 @@ namespace thermometer_test.Utils
             return temperature;
         }
 
-        public void setLineNumber(int lineNumber)
-        {
-            this.lineNumber = lineNumber;
-        }
-
-        public int getLineNumber()
-        {
-            return this.lineNumber;
-        }
         /*
         *  Convert Celsius to Fahrenheit 
         */
